@@ -53,6 +53,13 @@ class ApplicationTest extends NsTest {
             assertThat(output()).contains(ERROR_MESSAGE);
         });
     }
+    @Test
+    void 계산_가능_단위_금액(){
+        assertSimpleTest(() -> {
+            runException("1050");
+            assertThat(output()).contains(ERROR_MESSAGE);
+        });
+    }
 
     @Override
     public void runMain() {
