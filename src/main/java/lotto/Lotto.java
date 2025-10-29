@@ -31,10 +31,11 @@ public class Lotto {
         if(num.size() != 6) throw new IllegalArgumentException("[ERRROR] 중복 숫자가 입력되었습니다.");
     }
 
-    private void overnum(List<Integer> numbers){
+     private void overnum(List<Integer> numbers){
         for(int value : numbers){
             if(value < 1 || value > 45) throw new IllegalArgumentException("[ERROR] 범위를 벗어나는 숫자가 입력되었습니다.");
         }
     }
+   
     // TODO: 추가 기능 구현
 }
