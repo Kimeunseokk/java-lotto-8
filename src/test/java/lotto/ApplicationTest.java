@@ -53,11 +53,19 @@ class ApplicationTest extends NsTest {
             assertThat(output()).contains(ERROR_MESSAGE);
         });
     }
+
     @Test
-    void 계산_가능_단위_금액(){
+    void 계산_가능_단위_금액() {
         assertSimpleTest(() -> {
-            runException("1050");
+            runException("1200");
             assertThat(output()).contains(ERROR_MESSAGE);
+        });
+    }
+    @Test
+    void 금액이_1000원_단위인_경우_처리() {
+        assertSimpleTest(() -> {
+            run("2000");
+            assertThat(output()).doesNotContain(ERROR_MESSAGE);
         });
     }
 

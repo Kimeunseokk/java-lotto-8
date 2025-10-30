@@ -6,7 +6,12 @@ import camp.nextstep.edu.missionutils.Console;
 public class Application {
     public static void checkmoney(String str){
         int money = Integer.parseInt(str);
-        if(money%1000!=0) throw new IllegalArgumentException("1000원단위의 금액을 입력해주세요.");
+        try{
+            if(money%1000 != 0) throw new IllegalArgumentException("[ERROR] 입력단위를 1000으로 입력해주세요."); 
+        }
+        catch(NumberFormatException e){
+            throw new IllegalArgumentException("[ERROR] 숫자만 입력가능합니다.");
+        }
     }
 
     public static void main(String[] args) {
