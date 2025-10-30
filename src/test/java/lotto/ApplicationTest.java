@@ -61,6 +61,7 @@ class ApplicationTest extends NsTest {
             assertThat(output()).contains(ERROR_MESSAGE);
         });
     }
+    
     @Test
     void 금액이_1000원_단위인_경우_처리() {
         assertSimpleTest(() -> {
