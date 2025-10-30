@@ -1,9 +1,24 @@
 package lotto;
 import lotto.Lotto;
 import camp.nextstep.edu.missionutils.Randoms;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+
 import camp.nextstep.edu.missionutils.Console;
 
 public class Application {
+
+    private static final int START = 1;
+    private static final int END = 45;
+    private static final int RESULT = 6; 
+
     public static void checkmoney(String str){
         try{
             int money = Integer.parseInt(str);
@@ -14,12 +29,12 @@ public class Application {
         }
     }
     
-    public static void repeatMoney(){
+    public static int repeatMoney(){
         while(true){
             try{
                 String str = Console.readLine();
                 checkmoney(str);
-                return;
+                return Integer.parseInt(str);
             }
             catch(IllegalArgumentException e){
                 System.out.println("[ERROR] 금액을 다시 입력해주세요");
@@ -27,10 +42,31 @@ public class Application {
         }
     }
 
+    public static List<Integer> winnumber(){
+        String str = Console.readLine();
+        List<Integer> number = Arrays.stream(str.split(",")).map(String::trim).map(Integer::parseInt).collect(Collectors.toList());
+        new Lotto(number);
+        return number;
+    }
+
+    private static void randnumber(int count){
+        for(int i =0; i<count; i++){
+            List<Integer> num = Randoms.pickUniqueNumbersInRange(START, END, RESULT);
+            Collections.sort(num);
+            System.out.println(num);
+        }
+    }
+
     public static void main(String[] args) {
         // TODO: 프로그램 구현
         System.out.println("구입금액을 입력해주세요");
+        int money = repeatMoney();
+
+        System.out.println("\n"+money/1000+"개를 구매했습니다.");
+        randnumber(money/1000);
+
+        System.out.println("\n당첨 번호를 입력해 주세요.");
+        List<Integer> win = winnumber();
         
-        repeatMoney();
     }
 }
