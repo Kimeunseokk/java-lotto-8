@@ -28,12 +28,7 @@ class LottoTest {
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
-    @DisplayName("숫자가 입력되지 않았을때 예외가 발생한다.")
-    @Test
-    void 숫자가_입력되지_않았을때_예외가_발생한다한다(){
-        assertThatThrownBy(() -> new Lotto(List.of(1,47,34,3,5,6)))
-                .isInstanceOf(IllegalArgumentException.class);
-    }
+    
 
     // TODO: 추가 기능 구현에 따른 테스트 코드 작성
 }

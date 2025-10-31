@@ -65,10 +65,18 @@ class ApplicationTest extends NsTest {
     @Test
     void 금액이_1000원_단위인_경우_처리() {
         assertSimpleTest(() -> {
-            run("2000");
+            run("2000","1,2,4,5,6,7");
             assertThat(output()).doesNotContain(ERROR_MESSAGE);
         });
     }
+
+    @Test
+    void 당첨번호가_숫자로_입력되지_않았을때_예외_테스트() {
+    assertSimpleTest(() -> {
+        runException("2000","1,2,3,a,5,6"); // 숫자가 아닌 값 포함
+        assertThat(output()).contains(ERROR_MESSAGE);
+    });
+}
 
     @Override
     public void runMain() {

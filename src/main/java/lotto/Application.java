@@ -49,14 +49,18 @@ public class Application {
         return number;
     }
 
+
     private static void randnumber(int count){
         for(int i =0; i<count; i++){
-            List<Integer> num = Randoms.pickUniqueNumbersInRange(START, END, RESULT);
-            Collections.sort(num);
-            System.out.println(num);
+            rand();
         }
     }
-
+    private static void rand(){
+        List<Integer> list = Randoms.pickUniqueNumbersInRange(START, END, RESULT);
+        Collections.sort(list);
+        System.out.println(list);
+    }
+    
     public static void main(String[] args) {
         // TODO: 프로그램 구현
         System.out.println("구입금액을 입력해주세요");
@@ -67,6 +71,7 @@ public class Application {
 
         System.out.println("\n당첨 번호를 입력해 주세요.");
         List<Integer> win = winnumber();
+
         
     }
 }
