@@ -43,10 +43,21 @@ public class Application {
     }
 
     public static List<Integer> winnumber(){
-        String str = Console.readLine();
-        List<Integer> number = Arrays.stream(str.split(",")).map(String::trim).map(Integer::parseInt).collect(Collectors.toList());
-        new Lotto(number);
-        return number;
+        while (true) {
+        try {
+            String str = Console.readLine();
+            List<Integer> number = Arrays.stream(str.split(","))
+                    .map(String::trim)
+                    .map(Integer::parseInt)
+                    .collect(Collectors.toList());
+            new Lotto(number);
+            return number;
+        } catch (NumberFormatException e) {
+            System.out.println("[ERROR] 숫자만 입력 가능합니다. 다시 입력해주세요.");
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
+    }
     }
 
     private static List<List<Integer>> randnumber(int count){
@@ -80,6 +91,10 @@ public class Application {
         return count;
     }
 
+    public static void printresult(List<List<Integer>> allList, List<Integer> winList, int money){
+
+    }
+
     public static void main(String[] args) {
         // TODO: 프로그램 구현
         System.out.println("구입금액을 입력해주세요");
@@ -93,6 +108,7 @@ public class Application {
         
         resultsystem(Lotto, win);
 
-        System.out.print("\n당청 통계\n---");
+        printresult(Lotto, win, money);
+
     }
 }
