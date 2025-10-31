@@ -49,29 +49,50 @@ public class Application {
         return number;
     }
 
-
-    private static void randnumber(int count){
+    private static List<List<Integer>> randnumber(int count){
+        List<List<Integer>> all = new ArrayList<>();
         for(int i =0; i<count; i++){
-            rand();
+            List<Integer> lotto = rand();
+            all.add(lotto);
+            System.out.println(lotto);
         }
+        return all;
     }
-    private static void rand(){
+    private static List<Integer> rand(){
         List<Integer> list = Randoms.pickUniqueNumbersInRange(START, END, RESULT);
         Collections.sort(list);
-        System.out.println(list);
+        return list;
     }
-    
+
+    public static void resultsystem(List<List<Integer>> alllist, List<Integer> resultList){
+        for(List<Integer> numList : alllist){
+            int count = count(numList,resultList);
+            System.out.println(count + "개 일치");
+        }
+    }
+    public static int count(List<Integer> numList, List<Integer> resultList){
+        int count = 0;
+        for(Integer num : numList){
+            if(resultList.contains(num)){
+                count++;
+            }
+        }
+        return count;
+    }
+
     public static void main(String[] args) {
         // TODO: 프로그램 구현
         System.out.println("구입금액을 입력해주세요");
         int money = repeatMoney();
 
         System.out.println("\n"+money/1000+"개를 구매했습니다.");
-        randnumber(money/1000);
+        List<List<Integer>> Lotto = randnumber(money/1000);
 
         System.out.println("\n당첨 번호를 입력해 주세요.");
         List<Integer> win = winnumber();
-
         
+        resultsystem(Lotto, win);
+
+        System.out.print("\n당청 통계\n---");
     }
 }
