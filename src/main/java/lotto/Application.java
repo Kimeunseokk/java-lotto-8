@@ -46,11 +46,9 @@ public class Application {
         while (true) {
         try {
             String str = Console.readLine();
-            List<Integer> number = Arrays.stream(str.split(","))
-                    .map(String::trim)
-                    .map(Integer::parseInt)
-                    .collect(Collectors.toList());
+            List<Integer> number = Arrays.stream(str.split(",")).map(String::trim).map(Integer::parseInt).collect(Collectors.toList());
             new Lotto(number);
+            System.out.println();
             return number;
         } catch (NumberFormatException e) {
             System.out.println("[ERROR] 숫자만 입력 가능합니다. 다시 입력해주세요.");
@@ -69,18 +67,13 @@ public class Application {
         }
         return all;
     }
+    
     private static List<Integer> rand(){
-        List<Integer> list = Randoms.pickUniqueNumbersInRange(START, END, RESULT);
+        List<Integer> list = new ArrayList<>(Randoms.pickUniqueNumbersInRange(START, END, RESULT));
         Collections.sort(list);
         return list;
     }
 
-    public static void resultsystem(List<List<Integer>> alllist, List<Integer> resultList){
-        for(List<Integer> numList : alllist){
-            int count = count(numList,resultList);
-            System.out.println(count + "개 일치");
-        }
-    }
     public static int count(List<Integer> numList, List<Integer> resultList){
         int count = 0;
         for(Integer num : numList){
@@ -91,8 +84,65 @@ public class Application {
         return count;
     }
 
-    public static void printresult(List<List<Integer>> allList, List<Integer> winList, int money){
+    public static boolean bonus(List<Integer> numList, int bonus){
+        return numList.contains(bonus);
+    }
 
+    public static int bonusscore(){
+        while(true){
+            System.out.println("보너스 번호를 입력해 주세요.");
+            try {
+                String str = Console.readLine();
+                System.out.println();
+                return Integer.parseInt(str);
+            } catch (NumberFormatException e) {
+                // TODO: handle exception
+                throw new IllegalArgumentException("[ERROR] 숫자만 입력 가능합니다.");
+            }
+        }
+
+    }
+
+    public static void printresult(List<List<Integer>> allList, List<Integer> resultList, int money, int bonus){
+
+        int[] result = calculate(allList, resultList, bonus);
+        printlottoresult(result);
+
+        double profit = calculateProfit(result, money);
+        System.out.println("총 수익률은 " + String.format("%.1f", profit) + "%입니다.");
+    }
+
+    public static void printlottoresult(int[] result){
+        System.out.print("당첨 통계\n---\n");
+        System.out.println("3개 일치 (5,000원) - " + result[3]+ "개");
+        System.out.println("4개 일치 (50,000원) - "+ result[4]+ "개");
+        System.out.println("5개 일치 (1,500,000원) - "+ result[5]+ "개");
+        System.out.println("5개 일치, 보너스 볼 일치 (30,000,000원) - "+ result[6]+ "개");
+        System.out.println("6개 일치 (2,000,000,000원) - "+ result[7]+ "개");
+    }
+
+    private static double calculateProfit(int[] result, int money) {
+        long total = 0;
+        total += result[3] * 5_000L;
+        total += result[4] * 50_000L;
+        total += result[5] * 1_500_000L;
+        total += result[6] * 30_000_000L;
+        total += result[7] * 2_000_000_000L;
+        return (double) total / money * 100;
+    }
+
+    public static int[] calculate(List<List<Integer>> allList, List<Integer> resultList, int bonus){
+        int[] result = new int[8];
+        for (List<Integer> numList : allList) {
+            int count = count(numList, resultList);
+            if (count < 3) continue;
+            if (count == 5 && bonus(numList, bonus)) {
+                result[6]++;
+                continue;
+        }   
+        result[count]++;
+    }
+        return result;
     }
 
     public static void main(String[] args) {
@@ -106,9 +156,9 @@ public class Application {
         System.out.println("\n당첨 번호를 입력해 주세요.");
         List<Integer> win = winnumber();
         
-        resultsystem(Lotto, win);
+        int bonus = bonusscore();
 
-        printresult(Lotto, win, money);
+        printresult(Lotto, win, money, bonus);
 
     }
 }
